@@ -4,7 +4,7 @@
 
 start=`date +%s`
 {
-    ./cloud/cloud.exe --metaJson=./data/sales_meta.json --query="DECLARE s,t IN sales, s.Product number = t.Product number AND s.Retailer code = t.Retailer code AND s.Unit sale price > t.Unit sale price AND s.Unit price < t.Unit price"
+    ./cloud/cloud.exe --metaJson=./cloud/data/sales_meta.json --query="DECLARE s,t IN sales, s.Product number = t.Product number AND s.Retailer code = t.Retailer code AND s.Unit sale price > t.Unit sale price AND s.Unit price < t.Unit price"
     
     end=`date +%s`
 
