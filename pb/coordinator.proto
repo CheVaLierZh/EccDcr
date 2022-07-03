@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+option go_package = "EccDcr/pb";
+
+package pb;
+
+import "google/protobuf/empty.proto";
+
+service Coordinator {
+
+  rpc Heartbeat(HeartbeatArgs) returns(google.protobuf.Empty) {}
+
+  rpc Register(RegisterArgs) returns(RegisterReply) {}
+  rpc TCQuery(TCQueryArgs) returns(TCQueryReply) {}
+  rpc LPComplete(LPCompleteArgs) returns(LPCompleteReply) {}
+  rpc BalanceComplete(BalanceCompleteArgs) returns (google.protobuf.Empty) {}
+  rpc SinceTimeAcc(SinceTimeAccArgs) returns (google.protobuf.Empty) {}
+  rpc ResultPersistComplete(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+
+  rpc RepairBalanceComplete(google.protobuf.Empty) returns(google.protobuf.Empty) {}
+  rpc RepairTurnComplete(RepairTurnArgs) returns(google.protobuf.Empty) {}
+}
+
+message SinceTimeAccArgs {
+  int32 id = 1;
+  repeated int32 acc = 2;
+}
+
+message HeartbeatArgs {
+  int32 id = 1;
+}
+
+message RepairTurnArgs {
+  int32 restEdges = 1;
+  bytes cluster = 2;
+}
+
+message BalanceCompleteArgs {
+  int32 machineId = 1;
+  int32 parentPlanId = 2;
+}
+
+message RegisterArgs {
+  string address = 1;
+}
+
+message RegisterReply {
+  int32 id = 1;
+}
+
+message TCQueryArgs {
+  string query = 1;
+  double epsilon = 2;
+  string address = 3;
+}
+
+message TCQueryReply {
+  bool valid = 1;
+  string detail = 2;
+}
+
+message LPCompleteArgs {
+  int32 machineId = 1;
+  int32 planId = 2;
+}
+
+message LPCompleteReply {
+  bool cdComplete = 1;
+}
+
+

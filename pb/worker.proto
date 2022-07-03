@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+option go_package = "EccDcr/pb";
+
+package pb;
+
+import "google/protobuf/empty.proto";
+
+service Worker {
+  rpc TableCheck(TableCheckArgs) returns(TableCheckReply) {}
+  rpc ColumnStatis(ColumnStatisArgs) returns(ColumnStatisReply) {}
+  rpc CBBalance(BalanceArgs) returns(CBBalanceReply) {}
+  rpc RBBalance(BalanceArgs) returns(RBBalanceReply) {}
+  rpc PushCBLP(PushLPArgs) returns(google.protobuf.Empty) {}
+  rpc PushRBLP(PushLPArgs) returns (google.protobuf.Empty) {}
+  rpc CBBalanceWorkload(CBBalanceWorkloadArgs) returns(google.protobuf.Empty) {}
+  rpc RBBalanceWorkload(RBBalanceWorkloadArgs) returns(google.protobuf.Empty) {}
+  rpc PushCandidates(stream PushCandidatesArgs) returns(google.protobuf.Empty) {}
+  rpc PullData(PullDataArgs) returns (stream PullDataReply) {}
+  rpc CBFilter(CBFilterArgs) returns (FilterReply) {}
+  rpc RBFilter(RBFilterArgs) returns (FilterReply) {}
+  rpc ConflictDetectResult(google.protobuf.Empty) returns(ConflictDetectResultReply) {}
+  rpc CloseService(google.protobuf.Empty) returns(google.protobuf.Empty) {}
+  rpc BuildClusterIndex(google.protobuf.Empty) returns(google.protobuf.Empty) {}
+  rpc ResultPersist(ResultPersistArgs) returns(google.protobuf.Empty) {}
+  rpc SinceInferDate(SinceInferDateArgs) returns(SinceInferDateReply) {}
+  rpc SinceInfer(SinceInferArgs) returns(google.protobuf.Empty) {}
+  rpc AcquireTime(AcquireTimeArgs) returns(AcquireTimeReply) {}
+
+  rpc RepairInit(google.protobuf.Empty) returns(google.protobuf.Empty) {}
+  rpc RepairBalance(google.protobuf.Empty) returns(CBBalanceReply) {}
+  rpc RepairBalanceWorkload(CBBalanceWorkloadArgs) returns(google.protobuf.Empty) {}
+  rpc RepairPushCandidates(stream PushCandidatesArgs) returns(google.protobuf.Empty) {}
+  rpc RepairTurn(Cluster64Message) returns(google.protobuf.Empty) {}
+  rpc RepairVertexCover(Cluster64Message) returns(google.protobuf.Empty) {}
+  rpc RepairAggr(RepairAggrArgs) returns(google.protobuf.Empty) {}
+
+  rpc TableSize(google.protobuf.Empty) returns(SizeMessage) {}
+  rpc Sampling(SizeMessage) returns(google.protobuf.Empty) {}
+}
+
+message AcquireTimeArgs {
+  bytes cluster = 1;
+}
+
+message AcquireTimeReply {
+  repeated int64 times = 1;
+}
+
+message ResultPersistArgs {
+  int32 dc = 1;
+  int64 time = 2;
+  bool direct = 3;
+}
+
+message SinceInferDateArgs {
+  int64 fromDate = 1;
+  int64 toDate = 2;
+}
+
+message SinceInferDateReply {
+  repeated int64 dates = 1;
+}
+
+message SinceInferArgs {
+  int32 dc = 1;
+  repeated int64 dates = 2;
+  bool direct = 3;
+}
+
+message RepairAggrArgs {
+  bytes vc = 1;
+}
+
+message SizeMessage {
+  int32 size = 1;
+}
+
+message Cluster64Message {
+  bytes cluster = 1;
+}
+
+message ConflictDetectResultReply {
+  repeated int32 dcId = 1;
+  repeated int32 cCnt = 2;
+  int32 total = 3;
+}
+
+message RBBalanceReply {
+  map<uint64, int32> distrib = 1;
+}
+
+message RBBalanceWorkloadArgs {
+  map<uint64, int32> allocate = 1;
+}
+
+message CBFilterArgs {
+  string table = 1;
+  repeated string consts = 2;
+  string colName = 3;
+  string op = 4;
+}
+
+message RBFilterArgs {
+  string table = 1;
+  repeated string colName = 2;
+  repeated string constant = 3;
+  repeated string op = 4;
+  bytes set = 5;
+}
+
+message FilterReply {
+  repeated bytes ans = 1;
+}
+
+message  BalanceArgs {
+  int32 parentPlanId = 1;
+}
+
+message CBBalanceReply {
+  int32 workLoad = 1;
+}
+
+message TableCheckArgs {
+  string table = 1;
+  map<string, int32> columnsType = 2;
+  string sep = 3;
+  repeated string peers = 4;
+}
+
+message TableCheckReply {
+  bool valid = 1;
+}
+
+message ColumnStatisArgs {
+  string column = 1;
+}
+
+message ColumnStatisReply {
+  bytes histogram = 1;
+}
+
+message PushLPArgs {
+  repeated bytes plans = 1;
+}
+
+message PullDataArgs {
+  string table = 1;
+  bytes rowsId = 2;
+}
+
+message PullDataReply {
+  repeated string data = 1;
+}
+
+message CBBalanceWorkloadArgs {
+  repeated int32 delivery = 1;
+  int32 parentId = 2;
+}
+
+message PushCandidatesArgs {
+  uint64 key = 1;
+  bytes val = 2;
+}
+
+message RepairArgs {
+  bytes sender = 1;
+}
+
+message RepairReply {
+  bytes se = 1;
+  bytes rv = 2;
+}
+
+
+
+
+

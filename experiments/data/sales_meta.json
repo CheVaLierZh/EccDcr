@@ -1,0 +1,1 @@
+{"sales":{"@Sep":",","Retailer code":"LONG","Product number":"LONG","Order method code":"STRING","Date":"TIME","Quantity":"LONG","Unit price":"NUMERIC","Unit sale price":"NUMERIC"},"sales10k":{"@Sep":",","Retailer code":"LONG","Product number":"LONG","Order method code":"STRING","Date":"TIME","Quantity":"LONG","Unit price":"NUMERIC","Unit sale price":"NUMERIC"}}
